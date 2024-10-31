@@ -6,7 +6,12 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div id="map" class="map"></div> <!-- Map container -->
-    <script type="module" src="./main.js"></script> <!-- Link to main.js -->
+    <div id="map" class="map"></div>
+    <select id="layer-select">
+      <option value="OSM" selected>OpenStreetMap</option>
+      <option value="Carto">Carto</option>
+    </select>
+    <div id="coordinates"></div>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
