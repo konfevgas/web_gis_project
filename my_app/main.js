@@ -1,7 +1,8 @@
-import './style.css';
-import {Map, View} from 'ol';
+import Map from 'ol/Map';
+import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
+import { fromLonLat } from 'ol/proj';
 
 const map = new Map({
   target: 'map',
@@ -11,7 +12,7 @@ const map = new Map({
     })
   ],
   view: new View({
-    center: [0, 0],
-    zoom: 2
+    center: fromLonLat([13.1946, 55.7058]), // Center on Lund
+    zoom: 12
   })
 });

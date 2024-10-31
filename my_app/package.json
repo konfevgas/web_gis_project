@@ -1,15 +1,19 @@
 {
-  "name": "my_app",
+  "name": "lund-map-service",
   "version": "1.0.0",
+  "description": "A web map service for Lund using OpenLayers.",
+  "main": "main.js",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "devDependencies": {
-    "vite": "^5.4.10"
+    "build": "vite build"
   },
   "dependencies": {
-    "ol": "latest"
-  }
+    "ol": "^7.0.0"  
+  },
+  "devDependencies": {
+    "vite": "^4.0.0"
+  },
+  "keywords": ["web mapping", "Lund", "OpenLayers", "NodeJS"],
+  "author": "Your Name",
+  "license": "ISC"
 }
