@@ -6,6 +6,11 @@ import OSM from 'ol/source/OSM';
 import ImageWMS from 'ol/source/ImageWMS';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import { XYZ } from 'ol/source';
+import VectorSource from 'ol/source/Vector';
+import VectorLayer from 'ol/layer/Vector';
+import { Point } from 'ol/geom';
+import { Feature } from 'ol';
+import { Style, Icon } from 'ol/style';
 
 // Basemap layers
 const osmLayer = new TileLayer({
@@ -144,23 +149,51 @@ map.on('pointermove', function(event) {
 // Display clicked coordinates and copy option
 const clickedCoordinatesDiv = document.getElementById('clicked-coordinates');
 
-// Map click event to display clicked coordinates
+// Initialize a vector source to hold the point feature
+const markerSource = new VectorSource();
+
+// Create a vector layer for the marker and add it to the map
+const markerLayer = new VectorLayer({
+  source: markerSource,
+  style: new Style({
+    image: new Icon({
+      src: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+      scale: 0.06,
+      anchor: [0.5, 1],
+    }),
+  }),
+});
+map.addLayer(markerLayer);
+
+// Map click event to display clicked coordinates and place a marker
 map.on('click', function(event) {
   const coordinate = toLonLat(event.coordinate); // Convert to LonLat
   const lon = coordinate[0].toFixed(4);
   const lat = coordinate[1].toFixed(4);
-  
+
   // Update the coordinates in the clickedCoordinatesDiv
-  clickedCoordinatesDiv.innerHTML = `Clicked Coordinates (Lat/Lon): ${lat}, ${lon} <span class="copy-icon" id="copy-coord">📝</span>`;
+  clickedCoordinatesDiv.innerHTML = `Clicked Coordinates: Lat/Lon: ${lat}, ${lon} <span class="copy-icon" id="copy-coord">📝</span>`;
+  clickedCoordinatesDiv.dataset.coords = `${lat}, ${lon}`; // Store the coordinates for copying
 
-  // Store just the coordinates for copying
-  clickedCoordinatesDiv.dataset.coords = `${lat}, ${lon}`;
+  // Clear previous marker
+  markerSource.clear();
+
+  // Create a new point feature at the clicked location
+  const marker = new Feature({
+    geometry: new Point(event.coordinate),
   });
+  markerSource.addFeature(marker);
+});
 
-  // Copy coordinates to clipboard functionality
-  clickedCoordinatesDiv.addEventListener('click', function() {
+// Copy coordinates to clipboard functionality
+clickedCoordinatesDiv.addEventListener('click', function(event) {
+  // Check if the clicked element is the copy icon
+  if (event.target.id === 'copy-coord') {
     const textToCopy = clickedCoordinatesDiv.dataset.coords; // Retrieve only the coordinates
-    navigator.clipboard.writeText(textToCopy).catch(err => {
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      console.log('Coordinates copied to clipboard:', textToCopy);
+    }).catch(err => {
       console.error('Failed to copy: ', err);
     });
-  });
+  }
+});
