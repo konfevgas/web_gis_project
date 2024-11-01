@@ -89,7 +89,6 @@ const map = new Map({
   ]
 });
 
-
 // Function to handle basemap visibility
 function toggleBasemap(selectedLayer) {
   const layers = [osmLayer, cartoLayer, googleMapLayer, googleSatelliteLayer];
@@ -112,7 +111,6 @@ document.getElementById('googleMap-toggle').addEventListener('change', function(
 document.getElementById('googleSatellite-toggle').addEventListener('change', function() {
   if (this.checked) toggleBasemap(googleSatelliteLayer);
 });
-
 
 // Toggle Layers
 const layerToggles = [
@@ -140,5 +138,6 @@ map.on('pointermove', function(event) {
   const coordinate = toLonLat(event.coordinate); // Convert to LonLat
   const lon = coordinate[0].toFixed(4);
   const lat = coordinate[1].toFixed(4);
-  coordText.innerText = `${lon}, ${lat}`; // Update text in coord-text span
+  coordText.innerText = `${lat}, ${lon}`; // Update text in coord-text span
+});
 });
