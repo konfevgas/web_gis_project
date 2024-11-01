@@ -151,7 +151,7 @@ map.on('click', function(event) {
   const lat = coordinate[1].toFixed(4);
   
   // Update the coordinates in the clickedCoordinatesDiv
-  clickedCoordinatesDiv.innerHTML = `Clicked Coordinates: Lat/Lon: ${lat}, ${lon} <span class="copy-icon" id="copy-coord">📝</span>`;
+  clickedCoordinatesDiv.innerHTML = `Clicked Coordinates (Lat/Lon): ${lat}, ${lon} <span class="copy-icon" id="copy-coord">📝</span>`;
 
   // Store just the coordinates for copying
   clickedCoordinatesDiv.dataset.coords = `${lat}, ${lon}`;
