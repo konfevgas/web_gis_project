@@ -1,20 +1,38 @@
 #map {
+  position: absolute;
+  top: 10px;
+  left: 10px;
   width: 1200px;
-  height: 600px;
-  margin: 20px 0;
+  height: 500px;
+  margin: 20px;
 }
 
 #layer-controls {
   position: absolute;
-  top: 380px;
-  left: 30px;
+  top: 60px;
+  left: 1050px;
   background: lightgray;
   padding: 10px;
   border-radius: 5px;
   z-index: 100;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 #layer-controls label {
   display: block;
   margin-bottom: 5px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#coordinates {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgb(174, 193, 204);
+  padding: 5px;
+  border-radius: 5px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 14px;
+  font-weight:bold;
+  z-index: 100;
 }

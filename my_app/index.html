@@ -10,6 +10,13 @@
 <body>
   <div id="map"></div>
   <div id="layer-controls">
+    <h3>Basemaps</h3>
+    <label><input type="radio" id="osm-toggle" name="basemap" checked> OpenStreetMap </label>
+    <label><input type="radio" id="carto-toggle" name="basemap"> Carto Dark </label>
+    <label><input type="radio" id="googleMap-toggle" name="basemap"> Google Map </label>
+    <label><input type="radio" id="googleSatellite-toggle" name="basemap"> Google Satellite </label>
+
+    <h3>Layers</h3>
     <label><input type="checkbox" id="addresses-toggle"> Addresses </label>
     <label><input type="checkbox" id="districts-toggle"> Districts </label>
     <label><input type="checkbox" id="publicBuildings-toggle"> Public Buildings </label>
@@ -19,6 +26,9 @@
     <label><input type="checkbox" id="roadsThrough-toggle"> Roads Through </label>
     <label><input type="checkbox" id="railroads-toggle"> Railroads </label>
   </div>
+
+  <div id="coordinates">Coordinates (Lon/Lat): <span id="coord-text">0, 0</span></div>
+
   <script type="module" src="main.js"></script>
 </body>
 </html>

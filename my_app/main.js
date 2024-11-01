@@ -4,20 +4,45 @@ import TileLayer from 'ol/layer/Tile';
 import ImageLayer from 'ol/layer/Image';
 import OSM from 'ol/source/OSM';
 import ImageWMS from 'ol/source/ImageWMS';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
+import { XYZ } from 'ol/source';
 
-// Base map layer (OpenStreetMap)
-const osmTile = new TileLayer({
+// Basemap layers
+const osmLayer = new TileLayer({
   source: new OSM(),
+  visible: true,  // Make OSM layer visible by default
 });
 
-// Variables
-const _lundProjectGeoserverURL = 'http://localhost:8080/geoserver/wms'
-const _isLayerVisible = false
+const cartoLayer = new TileLayer({
+  source: new XYZ({
+    url: 'https://cartodb-basemaps-a.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png',
+    attributions: '© CartoDB',
+  }),
+  visible: false, // Not visible initially
+});
 
-// GeoServer WMS Layers
-function createWMSLayer (layerName, geoserverURL = _lundProjectGeoserverURL, isVisible = _isLayerVisible) {
-  return new ImageLayer ({
+const googleMapLayer = new TileLayer({
+  source: new XYZ({
+    url: 'https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}',
+    attributions: '© Google',
+  }),
+  visible: false, // Not visible initially
+});
+
+const googleSatelliteLayer = new TileLayer({
+  source: new XYZ({
+    url: 'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}',
+    attributions: '© Google',
+  }),
+  visible: false, // Not visible initially
+});
+
+// GeoServer WMS Layers (as defined in your original code)
+const _lundProjectGeoserverURL = 'http://localhost:8080/geoserver/wms';
+const _isLayerVisible = false;
+
+function createWMSLayer(layerName, geoserverURL = _lundProjectGeoserverURL, isVisible = _isLayerVisible) {
+  return new ImageLayer({
     source: new ImageWMS({
       url: geoserverURL,
       params: {
@@ -26,7 +51,7 @@ function createWMSLayer (layerName, geoserverURL = _lundProjectGeoserverURL, isV
       },
     }),
     visible: isVisible,
-  })
+  });
 }
 
 const lundAddresses = createWMSLayer('addresses_wgs84');
@@ -49,7 +74,10 @@ const map = new Map({
   target: 'map',
   view: mapView,
   layers: [
-    osmTile,
+    osmLayer,
+    cartoLayer,
+    googleMapLayer,
+    googleSatelliteLayer,
     lundAddresses,
     lundDistricts,
     lundPublicBuildings,
@@ -59,6 +87,30 @@ const map = new Map({
     lundRoadsThrough,
     lundRuralBuildings
   ]
+});
+
+
+// Function to handle basemap visibility
+function toggleBasemap(selectedLayer) {
+  const layers = [osmLayer, cartoLayer, googleMapLayer, googleSatelliteLayer];
+  
+  layers.forEach(layer => {
+    layer.setVisible(layer === selectedLayer);
+  });
+}
+
+// Event listeners for the basemap toggle
+document.getElementById('osm-toggle').addEventListener('change', function() {
+  if (this.checked) toggleBasemap(osmLayer);
+});
+document.getElementById('carto-toggle').addEventListener('change', function() {
+  if (this.checked) toggleBasemap(cartoLayer);
+});
+document.getElementById('googleMap-toggle').addEventListener('change', function() {
+  if (this.checked) toggleBasemap(googleMapLayer);
+});
+document.getElementById('googleSatellite-toggle').addEventListener('change', function() {
+  if (this.checked) toggleBasemap(googleSatelliteLayer);
 });
 
 
@@ -82,3 +134,11 @@ layerToggles.forEach(({ id, layer }) => {
   });
 });
 
+// Display cursor coordinates
+const coordText = document.getElementById('coord-text');
+map.on('pointermove', function(event) {
+  const coordinate = toLonLat(event.coordinate); // Convert to LonLat
+  const lon = coordinate[0].toFixed(4);
+  const lat = coordinate[1].toFixed(4);
+  coordText.innerText = `${lon}, ${lat}`; // Update text in coord-text span
+});
