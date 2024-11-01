@@ -141,8 +141,8 @@ layerToggles.forEach(({ id, layer }) => {
 const coordText = document.getElementById('coord-text');
 map.on('pointermove', function(event) {
   const coordinate = toLonLat(event.coordinate); // Convert to LonLat
-  const lon = coordinate[0].toFixed(4);
-  const lat = coordinate[1].toFixed(4);
+  const lon = coordinate[0].toFixed(7);
+  const lat = coordinate[1].toFixed(7);
   coordText.innerText = `${lat}, ${lon}`; // Update text in coord-text span
 });
 
@@ -165,11 +165,15 @@ const markerLayer = new VectorLayer({
 });
 map.addLayer(markerLayer);
 
+
+// Get a reference to the Remove Marker button
+const removeMarkerButton = document.getElementById('remove-marker');
+
 // Map click event to display clicked coordinates and place a marker
 map.on('click', function(event) {
   const coordinate = toLonLat(event.coordinate); // Convert to LonLat
-  const lon = coordinate[0].toFixed(4);
-  const lat = coordinate[1].toFixed(4);
+  const lon = coordinate[0].toFixed(7);
+  const lat = coordinate[1].toFixed(7);
 
   // Update the coordinates in the clickedCoordinatesDiv
   clickedCoordinatesDiv.innerHTML = `Clicked Coordinates: Lat/Lon: ${lat}, ${lon} <span class="copy-icon" id="copy-coord">📝</span>`;
