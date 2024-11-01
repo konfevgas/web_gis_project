@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Lund Map Service</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div id="map" class="map"></div>
-    <select id="layer-select">
-      <option value="OSM" selected>OpenStreetMap</option>
-      <option value="Carto">Carto</option>
-    </select>
-    <div id="coordinates"></div>
-    <script type="module" src="./main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lund Web Mapping Application</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <div id="map"></div>
+  <div id="layer-controls">
+    <label><input type="checkbox" id="addresses-toggle"> Addresses </label>
+    <label><input type="checkbox" id="districts-toggle"> Districts </label>
+    <label><input type="checkbox" id="publicBuildings-toggle"> Public Buildings </label>
+    <label><input type="checkbox" id="ruralBuildings-toggle"> Rural Buildings </label>
+    <label><input type="checkbox" id="roadsAll-toggle"> All Roads </label>
+    <label><input type="checkbox" id="roadsHighway-toggle"> Highway Roads </label>
+    <label><input type="checkbox" id="roadsThrough-toggle"> Roads Through </label>
+    <label><input type="checkbox" id="railroads-toggle"> Railroads </label>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
 </html>

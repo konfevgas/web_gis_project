@@ -1,77 +1,175 @@
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
+import ImageLayer from 'ol/layer/Image';
 import OSM from 'ol/source/OSM';
-import XYZ from 'ol/source/XYZ';
-import { Draw, Modify } from 'ol/interaction';
-import { Vector as VectorLayer } from 'ol/layer';
-import { Vector as VectorSource } from 'ol/source';
-import { Fill, Stroke, Style } from 'ol/style';
+import ImageWMS from 'ol/source/ImageWMS';
 import { fromLonLat } from 'ol/proj';
 
-// Set up base layers
-const osmLayer = new TileLayer({
-  source: new OSM()
+// Base map layer (OpenStreetMap)
+const osmTile = new TileLayer({
+  source: new OSM(),
 });
 
-const cartoLayer = new TileLayer({
-  source: new XYZ({
-    url: 'https://{a-c}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-    attributions: '© OpenStreetMap contributors, © Carto'
-  })
+// Variables
+const geoserverURL = 'http://localhost:8080/geoserver/wms'
+const isLayerVisible = false
+
+// GeoServer WMS Layers
+const lundAddresses = new ImageLayer({
+  source: new ImageWMS({
+    url: geoserverURL,
+    params: {
+      'LAYERS': 'lund_web_mapping:addresses_wgs84',
+      'TILED': true
+    },
+  }),
+  visible: isLayerVisible,
+});
+
+const lundDistricts = new ImageLayer({
+  source: new ImageWMS({
+    url: geoserverURL,
+    params: {
+      'LAYERS': 'lund_web_mapping:districts_wgs84',
+      'TILED': true
+    },
+  }),
+  visible: isLayerVisible,
+});
+
+const lundPublicBuildings = new ImageLayer({
+  source: new ImageWMS({
+    url: geoserverURL,
+    params: {
+      'LAYERS': 'lund_web_mapping:public_buildings_wgs84',
+      'TILED': true
+    },
+  }),
+  visible: isLayerVisible,
+});
+
+const lundRailroads = new ImageLayer({
+  source: new ImageWMS({
+    url: geoserverURL,
+    params: {
+      'LAYERS': 'lund_web_mapping:railroads_wgs84',
+      'TILED': true
+    },
+  }),
+  visible: isLayerVisible,
+});
+
+const lundRoadsAll = new ImageLayer({
+  source: new ImageWMS({
+    url: geoserverURL,
+    params: {
+      'LAYERS': 'lund_web_mapping:roads_all_wgs84',
+      'TILED': true
+    },
+  }),
+  visible: isLayerVisible,
+});
+
+const lundRoadsHighway = new ImageLayer({
+  source: new ImageWMS({
+    url: geoserverURL,
+    params: {
+      'LAYERS': 'lund_web_mapping:roads_highway_wgs84',
+      'TILED': true
+    },
+  }),
+  visible: isLayerVisible,
+});
+
+
+const lundRoadsThrough = new ImageLayer({
+  source: new ImageWMS({
+    url: geoserverURL,
+    params: {
+      'LAYERS': 'lund_web_mapping:roads_throug_wgs84',
+      'TILED': true
+    },
+  }),
+  visible: isLayerVisible,
+});
+
+const lundRuralBuildings = new ImageLayer({
+  source: new ImageWMS({
+    url: geoserverURL,
+    params: {
+      'LAYERS': 'lund_web_mapping:rural_buildings_wgs84',
+      'TILED': true
+    },
+  }),
+  visible: isLayerVisible,
+});
+
+
+// Set up the map view
+const mapView = new View({
+  center: fromLonLat([13.1906, 55.7060]),
+  zoom: 12,
 });
 
 // Initialize the map
 const map = new Map({
   target: 'map',
-  layers: [osmLayer],
-  view: new View({
-    center: fromLonLat([13.1946, 55.7058]), // Centered on Lund
-    zoom: 12
-  })
+  view: mapView,
+  layers: [
+    osmTile,
+    lundAddresses,
+    lundDistricts,
+    lundPublicBuildings,
+    lundRailroads,
+    lundRoadsAll,
+    lundRoadsHighway,
+    lundRoadsThrough,
+    lundRuralBuildings
+  ]
 });
 
-// Layer selection logic
-const layerSelect = document.getElementById('layer-select');
-layerSelect.addEventListener('change', function () {
-  map.getLayers().removeAt(0); // Remove current base layer
-  switch (layerSelect.value) {
-    case 'OSM':
-      map.getLayers().insertAt(0, osmLayer);
-      break;
-    case 'Carto':
-      map.getLayers().insertAt(0, cartoLayer);
-      break;
-  }
+
+
+
+// Toggle Layers
+
+const addressesToggle = document.getElementById('addresses-toggle');
+addressesToggle.addEventListener('change', function () {
+  lundAddresses.setVisible(addressesToggle.checked);
 });
 
-// Set up vector layer for drawing
-const vectorSource = new VectorSource();
-const vectorLayer = new VectorLayer({
-  source: vectorSource,
-  style: new Style({
-    fill: new Fill({
-      color: 'rgba(255, 255, 255, 0.2)'
-    }),
-    stroke: new Stroke({
-      color: '#ffcc33',
-      width: 2
-    })
-  })
+const districtsToggle = document.getElementById('districts-toggle');
+districtsToggle.addEventListener('change', function () {
+  lundDistricts.setVisible(districtsToggle.checked);
 });
-map.addLayer(vectorLayer);
 
-// Drawing tools
-const draw = new Draw({
-  source: vectorSource,
-  type: 'Point' // Options: Point, LineString, Polygon
+const publicBuildingsToggle = document.getElementById('publicBuildings-toggle');
+publicBuildingsToggle.addEventListener('change', function () {
+  lundPublicBuildings.setVisible(publicBuildingsToggle.checked);
 });
-map.addInteraction(draw);
 
-// Display coordinates
-const coordinatesDisplay = document.getElementById('coordinates');
-vectorSource.on('addfeature', function (event) {
-  const feature = event.feature;
-  const coords = feature.getGeometry().getCoordinates();
-  coordinatesDisplay.innerText = `Coordinates: [${coords}]`;
+const ruralBuildingsToggle = document.getElementById('ruralBuildings-toggle');
+ruralBuildingsToggle.addEventListener('change', function () {
+  lundRuralBuildings.setVisible(ruralBuildingsToggle.checked);
+});
+
+const roadsAllToggle = document.getElementById('roadsAll-toggle');
+roadsAllToggle.addEventListener('change', function () {
+  lundRoadsAll.setVisible(roadsAllToggle.checked);
+});
+
+const roadsHighwayToggle = document.getElementById('roadsHighway-toggle');
+roadsHighwayToggle.addEventListener('change', function () {
+  lundRoadsHighway.setVisible(roadsHighwayToggle.checked);
+});
+
+const roadsThroughToggle = document.getElementById('roadsThrough-toggle');
+roadsThroughToggle.addEventListener('change', function () {
+  lundRoadsThrough.setVisible(roadsThroughToggle.checked);
+});
+
+const railroadsToggle = document.getElementById('railroads-toggle');
+railroadsToggle.addEventListener('change', function () {
+  lundRailroads.setVisible(railroadsToggle.checked);
 });
