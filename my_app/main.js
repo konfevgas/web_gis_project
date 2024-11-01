@@ -132,7 +132,7 @@ layerToggles.forEach(({ id, layer }) => {
   });
 });
 
-// Display cursor coordinates
+// Display cursor coordinates and click to open new window for coordinates
 const coordText = document.getElementById('coord-text');
 map.on('pointermove', function(event) {
   const coordinate = toLonLat(event.coordinate); // Convert to LonLat
@@ -140,4 +140,27 @@ map.on('pointermove', function(event) {
   const lat = coordinate[1].toFixed(4);
   coordText.innerText = `${lat}, ${lon}`; // Update text in coord-text span
 });
-});
+
+// Display clicked coordinates and copy option
+const clickedCoordinatesDiv = document.getElementById('clicked-coordinates');
+
+// Map click event to display clicked coordinates
+map.on('click', function(event) {
+  const coordinate = toLonLat(event.coordinate); // Convert to LonLat
+  const lon = coordinate[0].toFixed(4);
+  const lat = coordinate[1].toFixed(4);
+  
+  // Update the coordinates in the clickedCoordinatesDiv
+  clickedCoordinatesDiv.innerHTML = `Clicked Coordinates: Lat/Lon: ${lat}, ${lon} <span class="copy-icon" id="copy-coord">📝</span>`;
+
+  // Store just the coordinates for copying
+  clickedCoordinatesDiv.dataset.coords = `${lat}, ${lon}`;
+  });
+
+  // Copy coordinates to clipboard functionality
+  clickedCoordinatesDiv.addEventListener('click', function() {
+    const textToCopy = clickedCoordinatesDiv.dataset.coords; // Retrieve only the coordinates
+    navigator.clipboard.writeText(textToCopy).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  });
