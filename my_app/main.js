@@ -12,6 +12,7 @@ const osmTile = new TileLayer({
 });
 
 // Variables
+<<<<<<< HEAD
 const geoserverURL = 'http://localhost:8080/geoserver/wms'
 const isLayerVisible = false
 
@@ -105,6 +106,33 @@ const lundRuralBuildings = new ImageLayer({
   visible: isLayerVisible,
 });
 
+=======
+const _lundProjectGeoserverURL = 'http://localhost:8080/geoserver/wms'
+const _isLayerVisible = false
+
+// GeoServer WMS Layers
+function createWMSLayer (layerName, geoserverURL = _lundProjectGeoserverURL, isVisible = _isLayerVisible) {
+  return new ImageLayer ({
+    source: new ImageWMS({
+      url: geoserverURL,
+      params: {
+        'LAYERS': `lund_web_mapping:${layerName}`,
+        'TILED': true
+      },
+    }),
+    visible: isVisible,
+  })
+}
+
+const lundAddresses = createWMSLayer('addresses_wgs84');
+const lundDistricts = createWMSLayer('districts_wgs84');
+const lundPublicBuildings = createWMSLayer('public_buildings_wgs84');
+const lundRailroads = createWMSLayer('railroads_wgs84');
+const lundRoadsAll = createWMSLayer('roads_all_wgs84');
+const lundRoadsHighway = createWMSLayer('roads_highway_wgs84');
+const lundRoadsThrough = createWMSLayer('roads_throug_wgs84');
+const lundRuralBuildings = createWMSLayer('rural_buildings_wgs84');
+>>>>>>> 7f2e9b4 (my own working version)
 
 // Set up the map view
 const mapView = new View({
@@ -130,6 +158,7 @@ const map = new Map({
 });
 
 
+<<<<<<< HEAD
 
 
 // Toggle Layers
@@ -173,3 +202,25 @@ const railroadsToggle = document.getElementById('railroads-toggle');
 railroadsToggle.addEventListener('change', function () {
   lundRailroads.setVisible(railroadsToggle.checked);
 });
+=======
+// Toggle Layers
+const layerToggles = [
+  { id: 'addresses-toggle', layer: lundAddresses },
+  { id: 'districts-toggle', layer: lundDistricts },
+  { id: 'publicBuildings-toggle', layer: lundPublicBuildings },
+  { id: 'ruralBuildings-toggle', layer: lundRuralBuildings },
+  { id: 'roadsAll-toggle', layer: lundRoadsAll },
+  { id: 'roadsHighway-toggle', layer: lundRoadsHighway },
+  { id: 'roadsThrough-toggle', layer: lundRoadsThrough },
+  { id: 'railroads-toggle', layer: lundRailroads }
+];
+
+// Add event listeners to each toggle checkbox
+layerToggles.forEach(({ id, layer }) => {
+  const checkbox = document.getElementById(id);
+  checkbox.addEventListener('change', () => {
+    layer.setVisible(checkbox.checked);
+  });
+});
+
+>>>>>>> 7f2e9b4 (my own working version)
