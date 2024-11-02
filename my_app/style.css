@@ -41,7 +41,7 @@
   position: absolute;
   bottom: 50px;
   left: 10px;
-  background: rgb(235, 166, 166);
+  background: rgb(224, 162, 162);
   padding: 5px;
   border-radius: 5px;
   z-index: 100;
@@ -53,4 +53,20 @@
 .copy-icon {
   cursor: pointer;
   margin-left: 10px;
+}
+
+#remove-marker {
+  position: absolute;
+  bottom: 90px;
+  left: 10px;
+  padding: 5px 10px;
+  background-color: #cfc8e2;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#remove-marker:hover {
+  background-color: #b9b9b9;
 }

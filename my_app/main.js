@@ -165,10 +165,6 @@ const markerLayer = new VectorLayer({
 });
 map.addLayer(markerLayer);
 
-
-// Get a reference to the Remove Marker button
-const removeMarkerButton = document.getElementById('remove-marker');
-
 // Map click event to display clicked coordinates and place a marker
 map.on('click', function(event) {
   const coordinate = toLonLat(event.coordinate); // Convert to LonLat
@@ -200,4 +196,13 @@ clickedCoordinatesDiv.addEventListener('click', function(event) {
       console.error('Failed to copy: ', err);
     });
   }
+});
+
+// Select the Remove Marker button
+const removeMarkerButton = document.getElementById('remove-marker');
+
+// Add an event listener to clear the marker when the button is clicked
+removeMarkerButton.addEventListener('click', () => {
+  markerSource.clear(); // Clear all markers from the marker source
+  clickedCoordinatesDiv.innerHTML = "Clicked Coordinates (Lat/Lon): -, - <span class='copy-icon' id='copy-coord'>📝</span>"; // Reset clicked coordinates display
 });
