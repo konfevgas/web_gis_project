@@ -11,6 +11,8 @@ import VectorLayer from 'ol/layer/Vector';
 import { Point } from 'ol/geom';
 import { Feature } from 'ol';
 import { Style, Icon } from 'ol/style';
+import ScaleLine from 'ol/control/ScaleLine';
+import { defaults as defaultControls } from 'ol/control';
 
 // Basemap layers
 const osmLayer = new TileLayer({
@@ -68,11 +70,21 @@ const lundRoadsHighway = createWMSLayer('roads_highway_wgs84');
 const lundRoadsThrough = createWMSLayer('roads_throug_wgs84');
 const lundRuralBuildings = createWMSLayer('rural_buildings_wgs84');
 
-// Set up the map view
 const mapView = new View({
   center: fromLonLat([13.1906, 55.7060]),
   zoom: 12,
 });
+
+const scaleLineControl = new ScaleLine({
+  units: 'metric',
+  bar: false,
+  steps: 4,
+  text: true,
+  minWidth: 100,
+  maxWidth: 150,
+  target: 'scale-line',
+});
+
 
 // Initialize the map
 const map = new Map({
@@ -91,10 +103,10 @@ const map = new Map({
     lundRoadsHighway,
     lundRoadsThrough,
     lundRuralBuildings
-  ]
+  ],
+  controls: defaultControls().extend([scaleLineControl])
 });
 
-// Function to handle basemap visibility
 function toggleBasemap(selectedLayer) {
   const layers = [osmLayer, cartoLayer, googleMapLayer, googleSatelliteLayer];
   
