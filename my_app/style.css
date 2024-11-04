@@ -1,16 +1,15 @@
-/* Main map container - responsive size */
 #map {
   position: absolute;
   top: 10px;
   left: 10px;
   right: 10px;
   bottom: 0;
-  width: calc(100vw - 200px);  /* Full viewport width minus margins */
-  height: calc(100vh - 160px); /* Full viewport height minus margins */
+  width: calc(100vw - 200px);
+  height: calc(100vh - 160px);
   margin: 10px;
 }
 
-/* Layer controls container */
+
 #layer-controls {
   position: absolute;
   top: 20px;
@@ -23,7 +22,6 @@
   font-family: 'Trebuchet MS', Arial, sans-serif;
 }
 
-/* Layer controls styling */
 #layer-controls label {
   display: block;
   margin-bottom: 8px;
@@ -42,7 +40,6 @@
   z-index: 100;
 }
 
-/* Coordinate display styles */
 #coordinates {
   bottom: 20px;
   left: 20px;
@@ -67,7 +64,6 @@
   background-color: rgb(63, 166, 192);
 }
 
-/* Remove marker button styling */
 #remove-marker {
   position: absolute;
   bottom: 103px;
@@ -85,7 +81,6 @@
   background-color:rgb(255, 0, 0);
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   #layer-controls {
     top: 10px;
