@@ -48,12 +48,13 @@ const googleSatelliteLayer = new TileLayer({
 const _lundProjectGeoserverURL = 'http://localhost:8080/geoserver/wms';
 const _isLayerVisible = false;
 
-function createWMSLayer(layerName, geoserverURL = _lundProjectGeoserverURL, isVisible = _isLayerVisible) {
+function createWMSLayer(layerName, styleName, geoserverURL = _lundProjectGeoserverURL, isVisible = _isLayerVisible) {
   return new ImageLayer({
     source: new ImageWMS({
       url: geoserverURL,
       params: {
         'LAYERS': `lund_web_mapping:${layerName}`,
+        'STYLES': styleName,
         'TILED': true
       },
     }),
@@ -61,14 +62,14 @@ function createWMSLayer(layerName, geoserverURL = _lundProjectGeoserverURL, isVi
   });
 }
 
-const lundAddresses = createWMSLayer('addresses_wgs84');
-const lundDistricts = createWMSLayer('districts_wgs84');
-const lundPublicBuildings = createWMSLayer('public_buildings_wgs84');
-const lundRailroads = createWMSLayer('railroads_wgs84');
-const lundRoadsAll = createWMSLayer('roads_all_wgs84');
-const lundRoadsHighway = createWMSLayer('roads_highway_wgs84');
-const lundRoadsThrough = createWMSLayer('roads_throug_wgs84');
-const lundRuralBuildings = createWMSLayer('rural_buildings_wgs84');
+const lundAddresses = createWMSLayer('addresses_wgs84', 'lund_web_mapping:addresses');
+const lundDistricts = createWMSLayer('districts_wgs84', 'lund_web_mapping:districts');
+const lundPublicBuildings = createWMSLayer('public_buildings_wgs84', 'lund_web_mapping:districts');
+const lundRailroads = createWMSLayer('railroads_wgs84', 'districts');
+const lundRoadsAll = createWMSLayer('roads_all_wgs84', 'districts');
+const lundRoadsHighway = createWMSLayer('roads_highway_wgs84', 'districts');
+const lundRoadsThrough = createWMSLayer('roads_throug_wgs84', 'districts');
+const lundRuralBuildings = createWMSLayer('rural_buildings_wgs84', 'districts');
 
 const mapView = new View({
   center: fromLonLat([13.1906, 55.7060]),
@@ -81,7 +82,7 @@ const scaleLineControl = new ScaleLine({
   steps: 4,
   text: true,
   minWidth: 100,
-  maxWidth: 150,
+  maxWidth: 110,
   target: 'scale-line',
 });
 
