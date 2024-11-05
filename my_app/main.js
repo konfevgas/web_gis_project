@@ -64,12 +64,12 @@ function createWMSLayer(layerName, styleName, geoserverURL = _lundProjectGeoserv
 
 const lundAddresses = createWMSLayer('addresses_wgs84', 'lund_web_mapping:addresses');
 const lundDistricts = createWMSLayer('districts_wgs84', 'lund_web_mapping:districts');
-const lundPublicBuildings = createWMSLayer('public_buildings_wgs84', 'lund_web_mapping:districts');
-const lundRailroads = createWMSLayer('railroads_wgs84', 'districts');
-const lundRoadsAll = createWMSLayer('roads_all_wgs84', 'districts');
-const lundRoadsHighway = createWMSLayer('roads_highway_wgs84', 'districts');
-const lundRoadsThrough = createWMSLayer('roads_throug_wgs84', 'districts');
-const lundRuralBuildings = createWMSLayer('rural_buildings_wgs84', 'districts');
+const lundPublicBuildings = createWMSLayer('public_buildings_wgs84', 'lund_web_mapping:public_buildings');
+const lundRailroads = createWMSLayer('railroads_wgs84', 'lund_web_mapping:railroads');
+const lundRoadsAll = createWMSLayer('roads_all_wgs84', 'lund_web_mapping:roads_all');
+const lundRoadsHighway = createWMSLayer('roads_highway_wgs84', 'lund_web_mapping:roads_highway');
+const lundRoadsThrough = createWMSLayer('roads_throug_wgs84', 'lund_web_mapping:roads_through');
+const lundRuralBuildings = createWMSLayer('rural_buildings_wgs84', 'lund_web_mapping:rural_buildings');
 
 const mapView = new View({
   center: fromLonLat([13.1906, 55.7060]),
